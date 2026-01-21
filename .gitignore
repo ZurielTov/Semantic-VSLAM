@@ -1,0 +1,28 @@
+# Build artifacts
+build/
+cmake-build-*/
+
+# Data
+data/dataset/
+data/*.zip
+data/*.tar.gz
+
+# Models
+models/*.pt
+models/*.onnx
+
+# Results
+results/*.png
+results/*.txt
+results/videos/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Python
+__pycache__/
+*.pyc
+venv/
