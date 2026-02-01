@@ -24,6 +24,7 @@ include_directories(
 add_library(vslam_core SHARED
     src/core/camera.cpp
     src/core/frame.cpp
+    src/frontend/feature_matcher.cpp
 )
 
 target_link_libraries(vslam_core
@@ -38,6 +39,17 @@ target_link_libraries(run_kitti vslam_core)
 # Test executable
 add_executable(test_camera test/test_camera.cpp)
 target_link_libraries(test_camera vslam_core)
+
+add_executable(test_matching examples/test_matching.cpp)
+target_link_libraries(test_matching vslam_core)
+
+# Video generation
+add_executable(generate_tracking_video examples/generate_tracking_video.cpp)
+target_link_libraries(generate_tracking_video vslam_core)
+
+add_executable(analyze_matches examples/analyze_matches.cpp)
+target_link_libraries(analyze_matches vslam_core)
+
 
 message(STATUS "Build configuration:")
 message(STATUS "  Build type: ${CMAKE_BUILD_TYPE}")

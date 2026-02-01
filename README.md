@@ -39,15 +39,15 @@ Build a complete SLAM system that:
 
 ## Current Status
 
-**Week 1** (Jan 20-26, 2026):
+**Working On** (Jan 20-26, 2026):
 - [x] Project setup
 - [x] Camera model (projection/backprojection)
 - [x] Frame class with ORB feature extraction
 - [x] KITTI dataset loader
-- [ ] Feature matching (in progress)
+- [x] Feature matching
+- [ ] Visual odometry (5-point algorithm)
 
 **Upcoming:**
-- [ ] Visual odometry (5-point algorithm)
 - [ ] Triangulation & mapping
 - [ ] Local bundle adjustment
 - [ ] Loop closure detection
@@ -106,6 +106,18 @@ This project is built to understand SLAM from fundamentals:
 2. **Optimization**: Bundle adjustment, pose graph
 3. **Place recognition**: Bag of words, loop closure
 4. **Deep learning integration**: YOLO + classical SLAM
+
+## 🖼️ Visual Results
+
+### Feature Extraction
+![Feature Extraction](results/day1_features.png)
+*1000 ORB features extracted per frame on KITTI sequence 00*
+
+### Feature Matching
+![Feature Matching](results/day2_matching.png)
+*Lowe's ratio test (threshold=0.75) achieving 450+ matches per frame pair*
+
+[Video: Feature Tracking](results/feature_tracking.avi)
 
 ##  Contact
 
