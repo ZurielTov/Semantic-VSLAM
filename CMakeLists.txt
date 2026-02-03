@@ -25,6 +25,7 @@ add_library(vslam_core SHARED
     src/core/camera.cpp
     src/core/frame.cpp
     src/frontend/feature_matcher.cpp
+    src/frontend/visual_odometry.cpp
 )
 
 target_link_libraries(vslam_core
@@ -50,6 +51,12 @@ target_link_libraries(generate_tracking_video vslam_core)
 add_executable(analyze_matches examples/analyze_matches.cpp)
 target_link_libraries(analyze_matches vslam_core)
 
+# Test visual odometry
+add_executable(test_visual_odometry examples/test_visual_odometry.cpp)
+target_link_libraries(test_visual_odometry vslam_core)
+
+add_executable(generate_trajectory examples/generate_trajectory.cpp)
+target_link_libraries(generate_trajectory vslam_core)
 
 message(STATUS "Build configuration:")
 message(STATUS "  Build type: ${CMAKE_BUILD_TYPE}")

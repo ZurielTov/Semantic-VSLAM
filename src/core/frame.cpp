@@ -35,6 +35,27 @@ void Frame::extractFeatures(int num_features) {
               << keypoints_.size() << " features" << std::endl;
 }
 
+void Frame::rectifyImage() {
+    if (!camera_ || image_.empty())
+        return;
+
+    // If no distortion or maps not prepared → do nothing
+    if (!camera_->hasUndistortMaps())
+        return;
+
+    cv::Mat rectified;
+    cv::remap(
+        image_,
+        rectified,
+        camera_->map1(),
+        camera_->map2(),
+        cv::INTER_LINEAR
+    );
+
+    image_ = rectified;
+}
+
+
 cv::Mat Frame::drawKeypoints() const {
     cv::Mat img_with_kp;
     cv::drawKeypoints(

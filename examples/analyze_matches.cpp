@@ -19,8 +19,13 @@ int main() {
     std::string data_root = "../data/dataset/sequences/00";
     std::string image_dir = data_root + "/image_0";
     
-    auto camera = std::make_shared<Camera>(
-        718.856, 718.856, 607.1928, 185.2157, 1241, 376
+    //Create Dist coeff
+    cv::Mat D = (cv::Mat_<double>(1,5) <<
+    -3.791375e-01,  // k1
+     2.148119e-01,  // k2
+     1.227094e-03,  // p1s
+     2.343833e-03,  // p2
+    -7.910379e-02   // k3
     );
     
     // Test different ratio thresholds
@@ -34,6 +39,25 @@ int main() {
         }
     }
     std::sort(image_files.begin(), image_files.end());
+
+    // Load first image to get size
+    cv::Mat first = cv::imread(image_files[0], cv::IMREAD_GRAYSCALE);
+    if (first.empty()) {
+        std::cerr << "ERROR: Could not read first image: " << image_files[0] << std::endl;
+        return -1;
+    }
+
+    int width  = first.cols;
+    int height = first.rows;
+
+    
+    // Create camera
+    auto camera = std::make_shared<Camera>(
+    981.2178, 975.8994, 690.0, 247.1364,
+    D,
+    width, height
+    );
+    camera->precomputeUndistortMaps();
     
     std::cout << "\nTesting ratio thresholds on first 50 frame pairs\n" << std::endl;
     
@@ -52,6 +76,9 @@ int main() {
             if (image.empty()) continue;
             
             auto curr_frame = std::make_shared<Frame>(i, i * 0.1, image, camera);
+
+            //Rectification
+            curr_frame->rectifyImage();
             curr_frame->extractFeatures(1000);
             
             if (prev_frame) {

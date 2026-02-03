@@ -19,6 +19,9 @@ public:
     };
     
     // Constructor
+
+    //ratio = que tan mejor es la primera opcion en comparacion a la segunda
+    // max _distance = que tanto se parece
     FeatureMatcher(float ratio_threshold = 0.75, 
                    float max_distance = 50.0);
     

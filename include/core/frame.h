@@ -17,11 +17,15 @@ public:
     
     // Feature extraction
     void extractFeatures(int num_features = 1000);
+
+    //Rectify Image
+    void rectifyImage();
     
     // Getters
     int id() const { return id_; }
     double timestamp() const { return timestamp_; }
     const cv::Mat& image() const { return image_; }
+    
     Camera::Ptr camera() const { return camera_; }
     
     const std::vector<cv::KeyPoint>& keypoints() const { 
@@ -35,6 +39,7 @@ public:
     Eigen::Matrix4d pose() const { return pose_; }
     void setPose(const Eigen::Matrix4d& pose) { pose_ = pose; }
     
+
     // Visualization
     cv::Mat drawKeypoints() const;
 

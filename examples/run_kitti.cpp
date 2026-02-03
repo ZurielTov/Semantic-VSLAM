@@ -23,16 +23,17 @@ int main(int argc, char** argv) {
         std::cerr << "Did you download KITTI dataset?" << std::endl;
         return -1;
     }
-    
-    // Create camera (KITTI sequence 00 calibration)
-    auto camera = std::make_shared<Camera>(
-        718.856,   // fx
-        718.856,   // fy
-        607.1928,  // cx
-        185.2157,  // cy
-        1241,      // width
-        376        // height
+
+    //Create Dist coeff
+    cv::Mat D = (cv::Mat_<double>(1,5) <<
+    -3.791375e-01,  // k1
+     2.148119e-01,  // k2
+     1.227094e-03,  // p1s
+     2.343833e-03,  // p2
+    -7.910379e-02   // k3
     );
+
+    
     
     // Get all image files
     std::vector<std::string> image_files;
@@ -50,6 +51,27 @@ int main(int argc, char** argv) {
     
     // Process frames
     int num_frames = std::min(20, (int)image_files.size());
+
+
+    // Load first image to get size
+    cv::Mat first = cv::imread(image_files[0], cv::IMREAD_GRAYSCALE);
+    if (first.empty()) {
+        std::cerr << "ERROR: Could not read first image: " << image_files[0] << std::endl;
+        return -1;
+    }
+
+    int width  = first.cols;
+    int height = first.rows;
+
+    
+    // Create camera
+    auto camera = std::make_shared<Camera>(
+    981.2178, 975.8994, 690.0, 247.1364,
+    D,
+    width, height
+    );
+
+    camera->precomputeUndistortMaps();
     
     for (int i = 0; i < num_frames; i++) {
         // Load image
@@ -62,6 +84,9 @@ int main(int argc, char** argv) {
         
         // Create frame (timestamp = index * 0.1s for KITTI)
         auto frame = std::make_shared<Frame>(i, i * 0.1, image, camera);
+
+        //Rectification
+        frame->rectifyImage();
         
         // Extract ORB features
         frame->extractFeatures(1000);
