@@ -107,7 +107,7 @@ This project is built to understand SLAM from fundamentals:
 3. **Place recognition**: Bag of words, loop closure
 4. **Deep learning integration**: YOLO + classical SLAM
 
-## 🖼️ Visual Results
+## 🖼️ Current Results
 
 ### Feature Extraction
 ![Feature Extraction](results/day1_features.png)
@@ -118,6 +118,18 @@ This project is built to understand SLAM from fundamentals:
 *Lowe's ratio test (threshold=0.75) achieving 450+ matches per frame pair*
 
 [Video: Feature Tracking](results/feature_tracking.avi)
+
+
+## Visual Odometry 
+Tested on KITTI Odometry Sequence 00 (first 100 frames):
+
+| Metric | Value | Status |
+|--------|-------|--------|
+| Mean Error | 7.22m | 
+| Final Error | 12.51m |
+| Drift Rate | ~11.4% |
+| Inlier Ratio | 86.4% |
+| Processing Speed | ~15 FPS |
 
 ##  Contact
 
